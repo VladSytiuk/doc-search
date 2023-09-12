@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
+    "graphene_django",
     "app",
 ]
 
@@ -131,3 +132,7 @@ REST_FRAMEWORK = {
 
 MEDIA_URL = "/documents/"
 MEDIA_ROOT = BASE_DIR / "documents"
+
+GRAPHENE = {
+    "SCHEMA": "app.grafql_api.schema.schema"
+}

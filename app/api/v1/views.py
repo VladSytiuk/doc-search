@@ -34,8 +34,6 @@ class DocumentUploadAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            # you can access the file like this from serializer
-            # uploaded_file = serializer.validated_data["file"]
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

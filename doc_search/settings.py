@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "graphene_django",
+    "django_filters",
+    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
     "app",
 ]
 
@@ -134,5 +136,13 @@ MEDIA_URL = "/documents/"
 MEDIA_ROOT = BASE_DIR / "documents"
 
 GRAPHENE = {
-    "SCHEMA": "app.grafql_api.schema.schema"
+    "SCHEMA": "app.grafql_api.schema.schema",
+    "MIDDLEWARE": [
+        "graphql_jwt.middleware.JSONWebTokenMiddleware",
+    ],
 }
+
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]

@@ -9,3 +9,9 @@ class UserType(DjangoObjectType):
     class Meta:
         model = User
         fields = ("id", "username", "email")
+
+
+class CreateUserType(DjangoObjectType):
+    class Meta:
+        model = User
+        fields = ("password", "username", "email")

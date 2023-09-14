@@ -123,6 +123,41 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-filter"
+version = "23.2"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "django-filter-23.2.tar.gz", hash = "sha256:2fe15f78108475eda525692813205fa6f9e8c1caf1ae65daa5862d403c6dbf00"},
+    {file = "django_filter-23.2-py3-none-any.whl", hash = "sha256:d12d8e0fc6d3eb26641e553e5d53b191eb8cec611427d4bdce0becb1f7c172b5"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
+name = "django-graphql-jwt"
+version = "0.4.0"
+description = "JSON Web Token for Django GraphQL."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django_graphql_jwt-0.4.0-py3-none-any.whl", hash = "sha256:5823aa8ac9bf0b7a6e3b2febd029598b332c41fe9043d89900c116fcecd23f5e"},
+    {file = "django_graphql_jwt-0.4.0.tar.gz", hash = "sha256:537972519f0deeec7a0e4a306ddfed1fe385266ef61c9f78c54cd04ac01a171e"},
+]
+
+[package.dependencies]
+django = ">=2.0"
+graphene = ">=2.1.5"
+graphene-django = ">=2.0.0"
+pyjwt = ">=2,<3"
+
+[package.extras]
+doc = ["sphinx"]
+test = ["black", "codecov", "cryptography", "flake8", "isort", "pytest", "pytest-cov", "pytest-django"]
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -204,6 +239,26 @@ text-unidecode = "*"
 dev = ["black (==23.7.0)", "coveralls", "django-filter (>=22.1)", "djangorestframework (>=3.6.3)", "mock", "pre-commit", "pytest (>=7.3.1)", "pytest-cov", "pytest-django (>=4.5.2)", "pytest-random-order", "pytz", "ruff (==0.0.283)"]
 rest-framework = ["djangorestframework (>=3.6.3)"]
 test = ["coveralls", "django-filter (>=22.1)", "djangorestframework (>=3.6.3)", "mock", "pytest (>=7.3.1)", "pytest-cov", "pytest-django (>=4.5.2)", "pytest-random-order", "pytz"]
+
+[[package]]
+name = "graphene-file-upload"
+version = "1.3.0"
+description = "Lib for adding file upload functionality to GraphQL mutations in Graphene Django and Flask-Graphql"
+optional = false
+python-versions = "*"
+files = [
+    {file = "graphene_file_upload-1.3.0-py3-none-any.whl", hash = "sha256:5afe50f409f50e3d198fd92c883d98d868e6c6aaadf5df3a3f4d88ecad90ed97"},
+    {file = "graphene_file_upload-1.3.0.tar.gz", hash = "sha256:6898480b0556826472c80971032917c01968ade5800d84054008fe598795b063"},
+]
+
+[package.dependencies]
+six = ">=1.11.0"
+
+[package.extras]
+all = ["Flask (>=1.0.2)", "Flask-Graphql (>=2.0.0)", "graphene (>=2.1.2)", "graphene-django (>=2.0.0)"]
+django = ["graphene-django (>=2.0.0)"]
+flask = ["Flask (>=1.0.2)", "Flask-Graphql (>=2.0.0)", "graphene (>=2.1.2)"]
+tests = ["coverage", "pytest", "pytest-cov", "pytest-django"]
 
 [[package]]
 name = "graphql-core"
@@ -412,4 +467,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "a4db3aba0563b2142ea9b2178760ff3288670380099f0bbb404b93f808dbd22d"
+content-hash = "0a12db68939a5538f19cea0f0219d11501e09a05499f448e87959aed442aa6ee"

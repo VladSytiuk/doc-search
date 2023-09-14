@@ -9,8 +9,8 @@ from app.grafql_api.mutations.users import (
     CreateUserMutation,
     DeleteUserMutation,
 )
-from app.grafql_api.types import UserType
-
+from app.grafql_api.types import UserType, DocumentType
+from app.models import Documents
 
 User = get_user_model()
 
@@ -18,15 +18,39 @@ User = get_user_model()
 class Query(graphene.ObjectType):
     all_users = graphene.List(UserType)
     user_by_username = graphene.Field(UserType, username=graphene.String(required=True))
+    all_documents = graphene.List(
+        DocumentType,
+        id=graphene.Int(),
+        first=graphene.Int(),
+        offset=graphene.Int(),
+    )
+    document_by_id = graphene.Field(DocumentType, id=graphene.String(required=True))
 
     @login_required
     def resolve_all_users(self, info):
         return User.objects.all()
 
+    @login_required
     def resolve_user_by_username(self, info, username):
         try:
             return User.objects.get(username=username)
         except User.DoesNotExist:
+            return None
+
+    @login_required
+    def resolve_all_documents(self, info, first=None, offset=None, **kwargs):
+        qs = Documents.objects.all().order_by("pk")
+        if offset:
+            qs = qs[offset:]
+        if first:
+            qs = qs[:first]
+        return qs
+
+    @login_required
+    def resolve_document_by_id(self, info, id):
+        try:
+            return Documents.objects.get(pk=id)
+        except Documents.DoesNotExist:
             return None
 
 

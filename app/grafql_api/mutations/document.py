@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from graphene_file_upload.scalars import Upload
 from graphql_jwt.decorators import login_required
 
+from app.grafql_api.types import DocumentType
 from app.models import Documents
 
 
@@ -27,3 +28,16 @@ class UploadDocumentMutation(graphene.Mutation):
             owner=user
         )
         return UploadDocumentMutation(document_id=document.pk)
+
+
+class DeleteDocumentMutation(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+
+    document = graphene.Field(DocumentType)
+
+    @classmethod
+    @login_required
+    def mutate(cls, root, info, id):
+        document = Documents.objects.get(pk=id)
+        document.delete()

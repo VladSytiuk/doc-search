@@ -20,9 +20,9 @@ class Query(graphene.ObjectType):
     user_by_username = graphene.Field(UserType, username=graphene.String(required=True))
     all_documents = graphene.List(
         DocumentType,
-        id=graphene.Int(),
         first=graphene.Int(),
         offset=graphene.Int(),
+        order_by=graphene.List(of_type=graphene.String),
     )
     document_by_id = graphene.Field(DocumentType, id=graphene.String(required=True))
 
@@ -38,12 +38,16 @@ class Query(graphene.ObjectType):
             return None
 
     @login_required
-    def resolve_all_documents(self, info, first=None, offset=None, **kwargs):
-        qs = Documents.objects.all().order_by("pk")
+    def resolve_all_documents(
+        self, info, first=None, offset=None, order_by=None, **kwargs
+    ):
+        qs = Documents.objects.order_by("pk")
         if offset:
             qs = qs[offset:]
         if first:
             qs = qs[:first]
+        if order_by:
+            qs = Documents.objects.order_by(*order_by)
         return qs
 
     @login_required

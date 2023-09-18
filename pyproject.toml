@@ -18,6 +18,11 @@ django-filter = "^23.2"
 django-graphql-jwt = "^0.4.0"
 graphene-file-upload = "^1.3.0"
 python-dotenv = "^1.0.0"
+openai = "^0.28.0"
+langchain = "^0.0.291"
+pypdfium2 = "^4.20.0"
+chromadb = "^0.4.10"
+tiktoken = "^0.5.1"
 
 
 [build-system]

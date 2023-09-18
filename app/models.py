@@ -4,6 +4,8 @@ from django.db import models
 
 User = get_user_model()
 
+User._meta.get_field("email")._unique = True
+
 
 class Documents(models.Model):
     document = models.FileField(unique=True)

@@ -22,11 +22,7 @@ class UploadDocumentMutation(graphene.Mutation):
         if Documents.objects.filter(title=file_name).exists():
             raise Exception("Document already exists")
         user = User.objects.get(pk=info.context.user.pk)
-        document = Documents.objects.create(
-            document=file,
-            title=file_name,
-            owner=user
-        )
+        document = Documents.objects.create(document=file, title=file_name, owner=user)
         return UploadDocumentMutation(document_id=document.pk)
 
 

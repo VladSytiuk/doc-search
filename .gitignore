@@ -62,3 +62,4 @@ env.bak/
 venv.bak
 ../venv/
 db_django/
+chroma_db/

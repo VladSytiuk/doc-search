@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 from graphql_jwt.decorators import login_required
 
+from app.assistant import assistant
 from app.grafql_api.types import DocumentType
 from app.models import Documents
 
@@ -26,6 +27,7 @@ class UploadDocumentMutation(graphene.Mutation):
             raise Exception("Document should be in pdf or md format")
         user = User.objects.get(pk=info.context.user.pk)
         document = Documents.objects.create(document=file, title=file_name, owner=user)
+        assistant.store_document_in_vectorstore(document.pk, user.username)
         return UploadDocumentMutation(document=document)
 
     @staticmethod

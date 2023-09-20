@@ -15,12 +15,7 @@ from app.grafql_api.mutations.users import (
 from app.grafql_api.queries import DocumentsQuery, UsersQuery, QuestionsQuery
 
 
-class Query(
-    UsersQuery,
-    DocumentsQuery,
-    QuestionsQuery,
-    graphene.ObjectType
-):
+class Query(UsersQuery, DocumentsQuery, QuestionsQuery, graphene.ObjectType):
     pass
 
 

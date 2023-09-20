@@ -1,7 +1,7 @@
 from langchain import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import PyPDFium2Loader
+from langchain.document_loaders import PyPDFium2Loader, UnstructuredMarkdownLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
@@ -11,7 +11,7 @@ from app.models import Documents
 
 TEMPLATE = """The chat bot should introduce itself as "Documents assistant".
 If the chat has no answer, it should say specifically: "I don't know
-please contact support by email support@nifty-bridge.com".
+please contact support by email support@doc_search.com".
 Chat should look for an answer from vectorstore documents.
 {context}
 Question: {question}
@@ -28,7 +28,7 @@ class AssistantService:
         vector_store = Chroma(
             persist_directory="./chroma_db",
             embedding_function=OpenAIEmbeddings(),
-            collection_name=collection
+            collection_name=collection,
         )
         qa_chain = RetrievalQA.from_chain_type(
             self.llm,
@@ -38,10 +38,13 @@ class AssistantService:
         answer = qa_chain({"query": question})
         return answer["result"]
 
-    @staticmethod
-    def _load_document(id) -> list:
+    def _load_document(self, id) -> list:
         document = Documents.objects.get(pk=id)
-        raw_document = PyPDFium2Loader(document.document.url[1:]).load()
+        extension = self._get_document_extension(document.title)
+        if extension == "pdf":
+            raw_document = PyPDFium2Loader(document.document.url[1:]).load()
+        if extension == "md":
+            raw_document = UnstructuredMarkdownLoader(document.document.url[1:]).load()
         return raw_document
 
     @staticmethod
@@ -60,12 +63,16 @@ class AssistantService:
             chunks,
             OpenAIEmbeddings(),
             persist_directory="./chroma_db",
-            collection_name=collection_name
+            collection_name=collection_name,
         )
 
     @staticmethod
     def get_collection_name(username: str) -> str:
         return username + "_vectorstore"
+
+    @staticmethod
+    def _get_document_extension(title: str) -> str:
+        return title.split(".")[-1].lower()
 
 
 assistant = AssistantService()

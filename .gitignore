@@ -63,3 +63,4 @@ venv.bak
 ../venv/
 db_django/
 chroma_db/
+dump.rdb

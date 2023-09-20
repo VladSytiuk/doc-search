@@ -7,9 +7,7 @@ from app.grafql_api.types import QuestionType
 
 class QuestionsQuery(graphene.ObjectType):
     question = graphene.Field(
-        QuestionType,
-        question=graphene.String(),
-        answer=graphene.String()
+        QuestionType, question=graphene.String(), answer=graphene.String()
     )
 
     @login_required

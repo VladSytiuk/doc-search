@@ -4,8 +4,7 @@ from django.contrib.auth import get_user_model
 
 from graphene_django import DjangoObjectType
 
-from app.models import Documents
-
+from app.models import Documents, UserKeys
 
 User = get_user_model()
 
@@ -32,3 +31,9 @@ class QuestionType(graphene.ObjectType):
     question = graphene.String()
     document_id = graphene.Int()
     answer = graphene.String()
+
+
+class KeyType(DjangoObjectType):
+    class Meta:
+        model = UserKeys
+        fields = ("key", "user", "queries_limit", "documents_limit")

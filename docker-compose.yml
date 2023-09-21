@@ -3,7 +3,10 @@ version: '3'
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -28,3 +31,31 @@ services:
     restart: always
     volumes:
       - ./db_django:/var/lib/mysql
+  redis:
+    image: redis:latest
+    command: redis-server
+    volumes:
+      - .:/data
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=password
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+  celery:
+    restart: always
+    build:
+      context: .
+    command: bash -c "celery -A doc_search worker"
+    volumes:
+      - .:/app
+    environment:
+      MYSQL_DATABASE: 'db_django'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    depends_on:
+      web:
+        condition: service_started
+      redis:
+        condition: service_started

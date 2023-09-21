@@ -12,10 +12,10 @@ from app.grafql_api.mutations.users import (
     ChangePasswordMutation,
     DeleteProfileMutation,
 )
-from app.grafql_api.queries import DocumentsQuery, UsersQuery
+from app.grafql_api.queries import DocumentsQuery, UsersQuery, QuestionsQuery
 
 
-class Query(UsersQuery, DocumentsQuery, graphene.ObjectType):
+class Query(UsersQuery, DocumentsQuery, QuestionsQuery, graphene.ObjectType):
     pass
 
 

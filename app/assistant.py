@@ -24,7 +24,9 @@ class AssistantService:
 
     QA_CHAIN_PROMPT = PromptTemplate.from_template(TEMPLATE)
 
-    def process_question(self, question: str, collection: str) -> str:
+    def process_question(self, question: str, collection: str, document_id: int) -> str:
+        document = Documents.objects.get(pk=document_id)
+        document_source = self._get_document_url(document)
         vector_store = Chroma(
             persist_directory="./chroma_db",
             embedding_function=OpenAIEmbeddings(),
@@ -32,7 +34,9 @@ class AssistantService:
         )
         qa_chain = RetrievalQA.from_chain_type(
             self.llm,
-            retriever=vector_store.as_retriever(search_kwargs={"k": 1}),
+            retriever=vector_store.as_retriever(
+                search_kwargs={"k": 1, "filter": {"source": document_source}},
+            ),
             chain_type_kwargs={"prompt": self.QA_CHAIN_PROMPT},
         )
         answer = qa_chain({"query": question})
@@ -40,11 +44,12 @@ class AssistantService:
 
     def _load_document(self, id) -> list:
         document = Documents.objects.get(pk=id)
+        document_url = self._get_document_url(document)
         extension = self._get_document_extension(document.title)
         if extension == "pdf":
-            raw_document = PyPDFium2Loader(document.document.url[1:]).load()
+            raw_document = PyPDFium2Loader(document_url).load()
         if extension == "md":
-            raw_document = UnstructuredMarkdownLoader(document.document.url[1:]).load()
+            raw_document = UnstructuredMarkdownLoader(document_url).load()
         return raw_document
 
     @staticmethod
@@ -73,6 +78,10 @@ class AssistantService:
     @staticmethod
     def _get_document_extension(title: str) -> str:
         return title.split(".")[-1].lower()
+
+    @staticmethod
+    def _get_document_url(document: Documents):
+        return document.document.url[1:]
 
 
 assistant = AssistantService()

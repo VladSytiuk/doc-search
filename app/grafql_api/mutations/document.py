@@ -45,7 +45,7 @@ class UploadDocumentMutation(graphene.Mutation):
 
     @staticmethod
     def check_key_documents_limit(key: UserKeys) -> bool:
-        return key.documents_limit <= 10
+        return key.documents_limit < 10
 
 
 class DeleteDocumentMutation(graphene.Mutation):

@@ -75,14 +75,65 @@ TOKEN_AUTH = """
     """
 
 UPLOAD_DOCUMENT_MUTATION = """
-            mutation UploadDocumentMutation($file: Upload!, $key: String!) {
-                            uploadDocument(file: $file, key: $key) {
-                                document{
-                                  title
-                                  owner{
-                                    username
-                                  }
-                                }
-                             }
-                            }
-                        """
+            mutation UploadDocumentMutation($file: Upload!, $key: String) {
+                uploadDocument(file: $file, key: $key) {
+                    success                         
+                }
+            }
+        """
+
+DELETE_DOCUMENT_MUTATION = """
+            mutation delete($id: ID) {
+              deleteDocument(id: $id) {
+                document {
+                  id
+                }
+              }
+            }
+        """
+
+USER_DOCUMENTS_QUERY = """
+                query  {
+                  userDocuments{
+                    id
+                    document
+                    owner{
+                      username
+                    }
+                  }
+                }
+            """
+
+CREATE_KEY_MUTATION = """
+            mutation CreateKeyMutation{
+              createKey{
+                key {
+                  key
+                  documentsLimit
+                  queriesLimit
+                  user{
+                    username
+                  }
+                }
+              }
+            }
+        """
+
+USER_KEYS_QUERY = """
+            query  {
+              userKeys{
+                key
+                documentsLimit
+                queriesLimit
+              }
+            }
+        """
+
+QUESTION_QUERY = """
+        query question($question: String, $documentId: Int, $key: String) {
+          question(question: $question, documentId: $documentId, key: $key) {
+            question
+            answer
+          }
+        }
+    """

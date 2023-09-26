@@ -18,7 +18,7 @@ class UploadDocumentMutation(graphene.Mutation):
         file = Upload(required=True)
         key = graphene.String()
 
-    document = graphene.Field(DocumentType)
+    success = graphene.Boolean()
 
     @classmethod
     @login_required
@@ -37,7 +37,7 @@ class UploadDocumentMutation(graphene.Mutation):
         key.save()
         store_document_in_vectorstore_task.delay(document.pk, user.username)
 
-        return UploadDocumentMutation(document=document)
+        return UploadDocumentMutation(success=True)
 
     @staticmethod
     def check_document_extension(file_name: str) -> bool:

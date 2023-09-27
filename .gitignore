@@ -65,3 +65,4 @@ db_django/
 chroma_db/
 dump.rdb
 celerybeat-schedule
+data-gym-cache/

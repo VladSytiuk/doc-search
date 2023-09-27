@@ -38,9 +38,14 @@ class CreateUserMutation(graphene.Mutation):
     user = graphene.Field(CreateUserType)
 
     @classmethod
-    def mutate(cls, root, info, username, email, password, first_name="", last_name=""):
+    def mutate(
+        cls, root, info, username, email, password, first_name="", last_name=""
+    ):
         user = User.objects.create_user(
-            username=username, email=email, first_name=first_name, last_name=last_name
+            username=username,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
         )
         user.set_password(password)
         user.is_active = True

@@ -13,7 +13,9 @@ app.autodiscover_tasks()
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour="0", minute="0"), reset_all_users_keys, name="reset all keys"
+        crontab(hour="0", minute="0"),
+        reset_all_users_keys,
+        name="reset all keys",
     )
 
 

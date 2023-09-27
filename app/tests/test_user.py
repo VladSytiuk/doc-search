@@ -50,9 +50,14 @@ class UserTestCase(BaseTestCase):
         self.assertResponseHasErrors(response)
 
     def test_update_profile_success(self):
-        user_data = {"firstName": "updated_first_name", "lastName": "updated_last_name"}
+        user_data = {
+            "firstName": "updated_first_name",
+            "lastName": "updated_last_name",
+        }
         response = self.query(
-            query=UPDATE_PROFILE_MUTATION, variables=user_data, headers=self.headers
+            query=UPDATE_PROFILE_MUTATION,
+            variables=user_data,
+            headers=self.headers,
         )
         self.assertResponseNoErrors(response)
         user = User.objects.get(username=self.user.username)
@@ -60,25 +65,39 @@ class UserTestCase(BaseTestCase):
         assert user.last_name == user_data["lastName"]
 
     def test_update_profile_not_authenticated_fail(self):
-        user_data = {"firstName": "updated_first_name", "lastName": "updated_last_name"}
-        response = self.query(query=UPDATE_PROFILE_MUTATION, variables=user_data)
+        user_data = {
+            "firstName": "updated_first_name",
+            "lastName": "updated_last_name",
+        }
+        response = self.query(
+            query=UPDATE_PROFILE_MUTATION, variables=user_data
+        )
         self.assertResponseHasErrors(response)
 
     def test_change_password_success(self):
         pass_data = {"oldPassword": "password", "newPassword": "new_password"}
         response = self.query(
-            query=CHANGE_PASSWORD_MUTATION, variables=pass_data, headers=self.headers
+            query=CHANGE_PASSWORD_MUTATION,
+            variables=pass_data,
+            headers=self.headers,
         )
         self.assertResponseNoErrors(response)
 
     def test_change_password_not_authenticated_fail(self):
         pass_data = {"oldPassword": "password", "newPassword": "new_password"}
-        response = self.query(query=CHANGE_PASSWORD_MUTATION, variables=pass_data)
+        response = self.query(
+            query=CHANGE_PASSWORD_MUTATION, variables=pass_data
+        )
         self.assertResponseHasErrors(response)
 
     def test_change_password_wrong_old_password_fail(self):
-        pass_data = {"oldPassword": "wrong_password", "newPassword": "new_password"}
-        response = self.query(query=CHANGE_PASSWORD_MUTATION, variables=pass_data)
+        pass_data = {
+            "oldPassword": "wrong_password",
+            "newPassword": "new_password",
+        }
+        response = self.query(
+            query=CHANGE_PASSWORD_MUTATION, variables=pass_data
+        )
         self.assertResponseHasErrors(response)
 
     def test_token_auth_success(self):
@@ -94,18 +113,24 @@ class UserTestCase(BaseTestCase):
     def test_delete_profile_success(self):
         pass_data = {"password": "password"}
         response = self.query(
-            query=DELETE_PROFILE_MUTATION, variables=pass_data, headers=self.headers
+            query=DELETE_PROFILE_MUTATION,
+            variables=pass_data,
+            headers=self.headers,
         )
         self.assertResponseNoErrors(response)
 
     def test_delete_profile_not_authenticated_fail(self):
         pass_data = {"password": "password"}
-        response = self.query(query=DELETE_PROFILE_MUTATION, variables=pass_data)
+        response = self.query(
+            query=DELETE_PROFILE_MUTATION, variables=pass_data
+        )
         self.assertResponseHasErrors(response)
 
     def test_delete_profile_wrong_password_fail(self):
         pass_data = {"password": "wrong_password"}
         response = self.query(
-            query=DELETE_PROFILE_MUTATION, variables=pass_data, headers=self.headers
+            query=DELETE_PROFILE_MUTATION,
+            variables=pass_data,
+            headers=self.headers,
         )
         self.assertResponseHasErrors(response)

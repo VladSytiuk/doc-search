@@ -29,10 +29,14 @@ class UploadDocumentMutation(graphene.Mutation):
 
         key = UserKeys.objects.get(key=key)
         if not cls.check_key_documents_limit(key):
-            raise Exception("The limit of documents to be uploaded has been reached")
+            raise Exception(
+                "The limit of documents to be uploaded has been reached"
+            )
 
         user = User.objects.get(pk=info.context.user.pk)
-        document = Documents.objects.create(document=file, title=file_name, owner=user)
+        document = Documents.objects.create(
+            document=file, title=file_name, owner=user
+        )
         key.documents_limit += 1
         key.save()
         store_document_in_vectorstore_task.delay(document.pk, user.username)

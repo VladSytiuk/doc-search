@@ -1,9 +1,10 @@
 import graphene
 from graphql_jwt.decorators import login_required
+from django_graphql_ratelimit import ratelimit
 
 from app.assistant import assistant
 from app.grafql_api.types import QuestionType
-from app.models import UserKeys
+from app.models import UserKeys, Questions, User, Documents
 
 
 class QuestionsQuery(graphene.ObjectType):
@@ -16,15 +17,20 @@ class QuestionsQuery(graphene.ObjectType):
     )
 
     @login_required
+    @ratelimit(key="gql:key", rate="10/m", block=True)
     def resolve_question(self, info, question, document_id, key):
-        key = UserKeys.objects.get(key=key)
-        if key.queries_limit >= 10:
-            raise Exception("The limit of questions to be asked has been reached")
+        if not UserKeys.objects.filter(key=key):
+            raise Exception("Wrong key")
         username = info.context.user.username
         collection_name = assistant.get_collection_name(username)
-        answer = assistant.process_question(question, collection_name, document_id)
-        key.queries_limit += 1
-        key.save()
+        answer = assistant.process_question(
+            question, collection_name, document_id
+        )
+        user = User.objects.get(pk=info.context.user.id)
+        document = Documents.objects.filter(pk=document_id).first()
+        Questions.objects.create(
+            user=user, document=document, question=question
+        )
         return QuestionType(
             answer=answer,
             question=question,

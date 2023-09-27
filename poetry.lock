@@ -883,6 +883,45 @@ doc = ["sphinx"]
 test = ["black", "codecov", "cryptography", "flake8", "isort", "pytest", "pytest-cov", "pytest-django"]
 
 [[package]]
+name = "django-graphql-ratelimit"
+version = "1.0.2"
+description = "Use django-ratelimit for graphql"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-graphql-ratelimit-1.0.2.tar.gz", hash = "sha256:b95d6322301feb7e067fdd4d62b104a0294e2c09ab45c113eb0c1503565413ae"},
+    {file = "django_graphql_ratelimit-1.0.2-py3-none-any.whl", hash = "sha256:5b6a9a6517b97e1126dbf01ba318b22ee4ab14d304e8211d10ddf105e4a72917"},
+]
+
+[package.dependencies]
+django-ipware = "*"
+django-ratelimit = ">=4.0.0"
+graphene = "*"
+graphene-django = "*"
+
+[[package]]
+name = "django-ipware"
+version = "5.0.0"
+description = "A Django application to retrieve user's IP address"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "django-ipware-5.0.0.tar.gz", hash = "sha256:4fa5607ee85e12ee5e158bc7569ff1e134fb1579681aa1ff3f0ed04be21be153"},
+    {file = "django_ipware-5.0.0-py2.py3-none-any.whl", hash = "sha256:80b52a3f571a371519cc552798f1015b934dd5dd7738bfad87e101e861bd21b8"},
+]
+
+[[package]]
+name = "django-ratelimit"
+version = "4.1.0"
+description = "Cache-based rate-limiting for Django."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "django-ratelimit-4.1.0.tar.gz", hash = "sha256:555943b283045b917ad59f196829530d63be2a39adb72788d985b90c81ba808b"},
+    {file = "django_ratelimit-4.1.0-py2.py3-none-any.whl", hash = "sha256:d047a31cf94d83ef1465d7543ca66c6fc16695559b5f8d814d1b51df15110b92"},
+]
+
+[[package]]
 name = "django-timezone-field"
 version = "6.0.1"
 description = "A Django app providing DB, form, and REST framework fields for zoneinfo and pytz timezone objects."
@@ -3376,4 +3415,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "19778e939744ce28f1061d83bf74ded066b7a005103b63e7304dd162486822c3"
+content-hash = "7d42b5b1b34fb887dd5b7776b7d4fd0e4d91d83bc8c9e99f2f867bf05021c5cd"

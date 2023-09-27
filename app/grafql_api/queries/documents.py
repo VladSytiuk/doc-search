@@ -19,7 +19,9 @@ class DocumentsQuery(graphene.ObjectType):
         limit=graphene.Int(),
         order_by=graphene.List(of_type=graphene.String),
     )
-    document_by_id = graphene.Field(DocumentType, id=graphene.String(required=True))
+    document_by_id = graphene.Field(
+        DocumentType, id=graphene.String(required=True)
+    )
     user_documents = graphene.List(DocumentType)
 
     @login_required

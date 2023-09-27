@@ -1,7 +1,10 @@
 from langchain import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import PyPDFium2Loader, UnstructuredMarkdownLoader
+from langchain.document_loaders import (
+    PyPDFium2Loader,
+    UnstructuredMarkdownLoader,
+)
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
@@ -24,7 +27,9 @@ class AssistantService:
 
     QA_CHAIN_PROMPT = PromptTemplate.from_template(TEMPLATE)
 
-    def process_question(self, question: str, collection: str, document_id: int) -> str:
+    def process_question(
+        self, question: str, collection: str, document_id: int
+    ) -> str:
         document = Documents.objects.get(pk=document_id)
         document_source = self._get_document_url(document)
         vector_store = Chroma(
@@ -60,7 +65,9 @@ class AssistantService:
         chunked_documents = text_splitter.split_documents(raw_document)
         return chunked_documents
 
-    def store_document_in_vectorstore(self, document_id: int, username: str) -> None:
+    def store_document_in_vectorstore(
+        self, document_id: int, username: str
+    ) -> None:
         document = self._load_document(document_id)
         chunks = self._split_document(document)
         collection_name = self.get_collection_name(username)

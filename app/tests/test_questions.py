@@ -21,7 +21,9 @@ class QuestionsTestCase(BaseTestCase):
         )
         with open("app/tests/test_file.md", "rb") as f:
             file = File(f)
-            self.document = Documents.objects.create(owner=self.user, document=file)
+            self.document = Documents.objects.create(
+                owner=self.user, document=file
+            )
 
     def test_question_success(self):
         variables = {
@@ -29,7 +31,9 @@ class QuestionsTestCase(BaseTestCase):
             "documentId": self.document.pk,
             "question": "my question",
         }
-        response = self.query(QUESTION_QUERY, variables=variables, headers=self.headers)
+        response = self.query(
+            QUESTION_QUERY, variables=variables, headers=self.headers
+        )
         self.assertResponseNoErrors(response)
 
     def test_question_success_not_authenticated_fail(self):
@@ -47,5 +51,7 @@ class QuestionsTestCase(BaseTestCase):
             "documentId": self.document.pk,
             "question": "my question",
         }
-        response = self.query(QUESTION_QUERY, variables=variables, headers=self.headers)
+        response = self.query(
+            QUESTION_QUERY, variables=variables, headers=self.headers
+        )
         self.assertResponseHasErrors(response)

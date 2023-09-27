@@ -23,7 +23,7 @@ class CreateKeyMutation(graphene.Mutation):
         user = User.objects.get(pk=info.context.user.pk)
         if UserKeys.objects.filter(user__pk=user.pk).count() >= 3:
             raise Exception("User can't create more then 3 keys")
-        key = str(Fernet.generate_key())
+        key = str(Fernet.generate_key())[2:-2]
         user_key = UserKeys.objects.create(
             user=user, reset_time=datetime.datetime.now(), key=key
         )

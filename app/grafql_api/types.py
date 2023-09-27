@@ -37,3 +37,10 @@ class KeyType(DjangoObjectType):
     class Meta:
         model = UserKeys
         fields = ("key", "user", "queries_limit", "documents_limit")
+
+
+class AnalyticsUsersActivityType(graphene.ObjectType):
+    id = graphene.Int()
+    documents_amount = graphene.Int()
+    questions_amount = graphene.Int()
+    username = graphene.String()

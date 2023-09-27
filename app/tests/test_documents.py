@@ -19,7 +19,9 @@ class DocumentsTestCase(BaseTestCase):
         )
         with open("app/tests/test_file.md", "rb") as f:
             file = File(f)
-            self.document = Documents.objects.create(owner=self.user, document=file)
+            self.document = Documents.objects.create(
+                owner=self.user, document=file
+            )
 
     def test_delete_document_success(self):
         variables = {"id": self.document.pk}

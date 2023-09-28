@@ -36,7 +36,7 @@ class QuestionType(graphene.ObjectType):
 class KeyType(DjangoObjectType):
     class Meta:
         model = UserKeys
-        fields = ("key", "user", "queries_limit", "documents_limit")
+        fields = ("key", "user", "documents_limit")
 
 
 class AnalyticsUsersActivityType(graphene.ObjectType):

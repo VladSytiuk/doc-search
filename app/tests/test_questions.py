@@ -36,22 +36,11 @@ class QuestionsTestCase(BaseTestCase):
         )
         self.assertResponseNoErrors(response)
 
-    def test_question_success_not_authenticated_fail(self):
+    def test_question_not_authenticated_fail(self):
         variables = {
             "key": self.user_key.key,
             "documentId": self.document.pk,
             "question": "my question",
         }
         response = self.query(QUESTION_QUERY, variables=variables)
-        self.assertResponseHasErrors(response)
-
-    def test_question_success_not_exceeded_key_limit_fail(self):
-        variables = {
-            "key": self.user_key_exceeded.key,
-            "documentId": self.document.pk,
-            "question": "my question",
-        }
-        response = self.query(
-            QUESTION_QUERY, variables=variables, headers=self.headers
-        )
         self.assertResponseHasErrors(response)

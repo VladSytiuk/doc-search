@@ -1,6 +1,6 @@
 import graphene
 
-from graphql_jwt.decorators import login_required
+from graphql_jwt.decorators import login_required, superuser_required
 
 from django.contrib.auth import get_user_model
 
@@ -24,7 +24,7 @@ class DocumentsQuery(graphene.ObjectType):
     )
     user_documents = graphene.List(DocumentType)
 
-    @login_required
+    @superuser_required
     def resolve_all_documents(
         self, info, first=None, limit=None, order_by=None, **kwargs
     ):

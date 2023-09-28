@@ -2,7 +2,7 @@ import graphene
 from django.db.models import Count
 
 from app.grafql_api.types import AnalyticsUsersActivityType
-from graphql_jwt.decorators import login_required
+from graphql_jwt.decorators import superuser_required
 
 from app.models import User
 
@@ -10,7 +10,7 @@ from app.models import User
 class AnalyticsQuery(graphene.ObjectType):
     top_users_activity = graphene.List(AnalyticsUsersActivityType)
 
-    @login_required
+    @superuser_required
     def resolve_top_users_activity(self, info):
         qs = (
             User.objects.all()

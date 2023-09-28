@@ -15,11 +15,15 @@ User = get_user_model()
 
 class UserTestCase(BaseTestCase):
     def test_get_users_lists_success(self):
-        response = self.query(query=USERS_LIST_QUERY, headers=self.headers)
+        response = self.query(query=USERS_LIST_QUERY, headers=self.admin_headers)
         self.assertResponseNoErrors(response)
 
     def test_get_users_lists_not_authenticated_fail(self):
         response = self.query(query=USERS_LIST_QUERY)
+        self.assertResponseHasErrors(response)
+
+    def test_get_users_lists_wrong_permissions_fail(self):
+        response = self.query(query=USERS_LIST_QUERY, headers=self.headers)
         self.assertResponseHasErrors(response)
 
     def test_create_user_success(self):

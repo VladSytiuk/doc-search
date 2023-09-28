@@ -110,7 +110,6 @@ CREATE_KEY_MUTATION = """
                 key {
                   key
                   documentsLimit
-                  queriesLimit
                   user{
                     username
                   }
@@ -124,7 +123,6 @@ USER_KEYS_QUERY = """
               userKeys{
                 key
                 documentsLimit
-                queriesLimit
               }
             }
         """

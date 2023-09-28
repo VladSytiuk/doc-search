@@ -1,6 +1,6 @@
 import graphene
 
-from graphql_jwt.decorators import login_required
+from graphql_jwt.decorators import login_required, superuser_required
 
 from django.contrib.auth import get_user_model
 
@@ -21,7 +21,7 @@ class UsersQuery(graphene.ObjectType):
         UserType, username=graphene.String(required=True)
     )
 
-    @login_required
+    @superuser_required
     def resolve_all_users(
         self,
         info,

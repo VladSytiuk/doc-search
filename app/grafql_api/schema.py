@@ -6,16 +6,30 @@ from app.grafql_api.mutations.document import (
     UploadDocumentMutation,
     DeleteDocumentMutation,
 )
+from app.grafql_api.mutations.keys import CreateKeyMutation
 from app.grafql_api.mutations.users import (
     UpdateProfileMutation,
     CreateUserMutation,
     ChangePasswordMutation,
     DeleteProfileMutation,
 )
-from app.grafql_api.queries import DocumentsQuery, UsersQuery, QuestionsQuery
+from app.grafql_api.queries import (
+    DocumentsQuery,
+    UsersQuery,
+    QuestionsQuery,
+    KeysQuery,
+    AnalyticsQuery,
+)
 
 
-class Query(UsersQuery, DocumentsQuery, QuestionsQuery, graphene.ObjectType):
+class Query(
+    UsersQuery,
+    DocumentsQuery,
+    QuestionsQuery,
+    KeysQuery,
+    AnalyticsQuery,
+    graphene.ObjectType,
+):
     pass
 
 
@@ -29,6 +43,7 @@ class Mutation(graphene.ObjectType):
     delete_document = DeleteDocumentMutation.Field()
     change_password = ChangePasswordMutation.Field()
     delete_profile = DeleteProfileMutation.Field()
+    create_key = CreateKeyMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

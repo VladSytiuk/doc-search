@@ -12,3 +12,17 @@ class Documents(models.Model):
     title = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class UserKeys(models.Model):
+    key = models.CharField(blank=False, null=False, max_length=500)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    queries_limit = models.IntegerField(default=0)
+    documents_limit = models.IntegerField(default=0)
+    reset_time = models.DateTimeField()
+
+
+class Questions(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    document = models.ForeignKey(Documents, on_delete=models.CASCADE)
+    question = models.CharField(max_length=2000)

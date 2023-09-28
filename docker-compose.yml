@@ -51,9 +51,19 @@ services:
       - .:/app
     environment:
       MYSQL_DATABASE: 'db_django'
-      MYSQL_USER: 'user'
+      MYSQL_USER: 'root'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
+    depends_on:
+      web:
+        condition: service_started
+      redis:
+        condition: service_started
+  celery-beat:
+    build: .
+    command: celery -A doc_search beat
+    volumes:
+      - .:/app
     depends_on:
       web:
         condition: service_started
